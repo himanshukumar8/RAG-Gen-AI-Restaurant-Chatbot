@@ -1,0 +1,15 @@
+pinecone
+os
+dotenv
+typing 
+pydantic
+streamlit
+json
+bson
+asyncio
+motor
+bs4
+collections
+re
+playwright
+lxml
