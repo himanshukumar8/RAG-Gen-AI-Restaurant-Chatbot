@@ -1,219 +1,238 @@
-# Restaurant-Gen-AI-Chat Bot
-#### A smart solution for all your cravings: easily explore and satisfy your inquiries through a smooth, user-friendly interface.
+# 🍽️ RAG-Gen-AI-Restaurant-Chatbot
 
-# Demo Vedio
-Demo vedio]((https://www.youtube.com/watch?v=1NKOmnRl_bA))
+An AI-powered restaurant assistant built using Retrieval-Augmented Generation (RAG), vector search, and Large Language Models to provide intelligent food recommendations and natural conversational interaction.
 
-
-## 1. Web Scraper Component and Knowledge Base Creation 
-
-It consists of three Python scripts:
-- `menu_scraper.py` — Scrapes menu items, descriptions, prices, and special attributes.
-- `info_scraper.py` — Scrapes general restaurant information like name, address, hours, phone, and images.
-- `format.py` — Cleans, formats, and combines scraped data into a unified structured JSON.
-
-
-### 1. Web Scraping
-Instead of manually collecting restaurant data, we automate it by scraping multiple restaurant websites.  
-We capture:
-- Restaurant name , address, timings and contact details.
-- Menu items with:
-  - Description
-  - Price
-  - Dietary options (e.g., vege tarian/non-vegetarian)
-  - Spice level (if available)
-
-Both `menu_scraper.py` and `info_scraper.py` takes care of following : 
-
-- Implementing error handling to avoid crashes if some fields are missing.
-- Respect the site's `robots.txt` to avoid scraping restricted areas.
-- Organize extracted data into clean intermediate JSON files.
+The system combines restaurant menu data, semantic retrieval, and LLM-based reasoning to help users discover dishes, explore cuisines, compare food items, and interact with restaurant information through natural language queries.
 
 ---
 
-### 2. Knowledge Base Creation
+# 🚀 Features
 
-Once raw data is scraped:
-- `format.py` processes both the **restaurant info** and the **menu items**.
-- It **normalizes** the text (removing extra spaces, cleaning HTML artifacts).
-- It **indexes** data efficiently, associating each restaurant with its menu.
-- It finally generates a structured `knowledgebase.json`, ready for future chatbot integration.
+- 🔍 AI-powered semantic food search
+- 💬 Conversational restaurant assistant
+- 📄 Retrieval-Augmented Generation (RAG) pipeline
+- 🧠 Context-aware query understanding
+- 🍕 Personalized food and cuisine recommendations
+- 📚 Vector similarity search using Pinecone
+- 🗂️ Structured restaurant and menu knowledge base
+- ⚡ Fast and scalable retrieval workflow
+- 🌐 Interactive frontend interface
 
-### Below is the `knowledgebase.json` structure
-Restaurant data (per restaurant):
+---
 
-```
-{
-    "name": "...",
-    "menu_items": [...],
-    "dietary_options": "...",
-    "price_range": "...", 
-    "address": "...",
-    "opening_hours": "...",
-    "image_url": "...",
-    "phone_number": "..."
-}
-```
-Menu Item Data (per dish):
+# 🧠 Problem Statement
 
-```
-{
-    "name": "...",
-    "description": "...",
-    "price": "amount in rupees",
-    "attributes": {
-        "veg_nonveg": "...",
-        "category": "...",
-        "spice_level": 0/1/2 based on spices
-    }
-}
-```
-## 3. RAG Chatbot 
-### Overview of component
+Traditional food ordering platforms rely heavily on keyword-based search and static filtering systems, which often fail to understand natural language queries such as:
 
-A chatbot that uses Retrieval-Augmented Generation (RAG) architecture to answer restaurant and menu-related queries, backed by a Pinecone database and Hugging Face LLMs.
-Built with Streamlit for a simple and clean UI.
+- “Suggest spicy vegetarian dishes under ₹300”
+- “Recommend high-protein meals for dinner”
+- “What are the best Italian dishes available?”
 
-### Features
+This project addresses the limitation by integrating LLM-based conversational intelligence with semantic retrieval to provide more accurate and context-aware food recommendations.
 
-1. Menu item availability and details
-2. Restaurant feature comparisons
-3. Price range inquiries
-4. Dietary restriction information
-5. Handles ambiguous and out-of-scope queries
-6. Maintains basic conversation history
+---
 
-### Project Structure
-```
-db/
-  └── pinecone.py
-structures/
-  ├── menu.py
-  └── resturant.py
-utils/
-  ├── generatePrompt.py
-  └── llm.py
-.env
-knowledgebase.json
-main.py
-requirements.txt
-```
-### Functionality of each component
-1. Database (`pinecone.py`)
-- Manages embeddings storage and retrieval using Pinecone.
+# 🏗️ System Architecture
 
-2. Structures (`menu.py` and `restaurant.py`)
-- **`menu.py`**: Handles menu items, prices, and dietary tags.
-- **`restaurant.py`**: Handles restaurant features for comparison.
+The project follows a Retrieval-Augmented Generation (RAG) workflow:
 
-3. Utilities (`llm.py` and `generatePrompt.py`)
-- **`llm.py`**: Interfaces with a Hugging Face LLM to generate responses.
-- **`generatePrompt.py`**: Builds structured prompts for the LLM.
+1. Restaurant and menu data are collected and structured.
+2. Menu information is converted into embeddings.
+3. Embeddings are stored inside Pinecone vector database.
+4. User queries are converted into vector representations.
+5. Similar menu items are retrieved using semantic similarity search.
+6. Retrieved context is passed to the LLM.
+7. The LLM generates context-aware responses and recommendations.
 
-4. Main Application (`main.py`)
-- Hosts the Streamlit app UI for chatbot interaction.
+---
 
-5. Knowledge Base (`knowledgebase.json`)
-- JSON file containing restaurant and menu information for embedding.
+# ⚙️ Tech Stack
 
-6. Environment Configuration (`.env`)
-- Stores API keys and private configurations securely.
+## Programming Language
+- Python
 
-### System workflow
-```
-flowchart TD
-    A[User Query] --> B[Retrieve relevant data from Pinecone]
-    B --> C[Generate prompt using retrieved data]
-    C --> D[Send prompt to Hugging Face LLM]
-    D --> E[LLM generates a natural language response]
-    E --> F[Display response in Streamlit UI]
+## AI/ML Technologies
+- Large Language Models (LLMs)
+- Retrieval-Augmented Generation (RAG)
+- Semantic Search
+- Embeddings
+- NLP Pipelines
+
+## Libraries & Frameworks
+- LangChain
+- Pinecone
+- Google Gemini API
+- Sentence Transformers
+- Streamlit
+- Pandas
+- NumPy
+
+## Database & Storage
+- Pinecone Vector Database
+- JSON-based Knowledge Base
+
+---
+
+# 📂 Project Structure
+
+```bash
+Restaurant-Gen-AI-Chatbot/
+│
+├── data/                     # Restaurant and menu datasets
+├── embeddings/               # Embedding generation pipeline
+├── prompts/                  # Prompt templates
+├── scraper/                  # Data collection and scraping scripts
+├── vector_store/             # Pinecone integration
+├── app.py                    # Main application
+├── requirements.txt          # Python dependencies
+├── README.md
+└── utils/                    # Helper utilities
 ```
 
-# Project Workflow
-![ChatGPT Image Apr 27, 2025, 12_37_37 PM](https://github.com/user-attachments/assets/521f7633-93c4-4d17-abaf-82e8a28f763d)
+---
 
-# Installation and setup guide
+# 🔄 Workflow Pipeline
 
-### Clone the repository
+## 1. Data Collection
+Restaurant and menu information are collected and transformed into structured JSON format.
+
+## 2. Data Preprocessing
+Menu descriptions, cuisine types, and food metadata are cleaned and formatted.
+
+## 3. Embedding Generation
+Text embeddings are generated for semantic similarity search.
+
+## 4. Vector Storage
+Embeddings are stored in Pinecone for efficient retrieval.
+
+## 5. Query Understanding
+User queries are converted into embeddings and matched against the vector database.
+
+## 6. Context Retrieval
+Relevant restaurant and menu information is retrieved.
+
+## 7. Response Generation
+The LLM generates contextual and conversational responses based on retrieved information.
+
+---
+
+# 📊 Key Functionalities
+
+## 🍔 Intelligent Food Recommendation
+Provides personalized food suggestions based on:
+- Cuisine preferences
+- Dietary requirements
+- Budget constraints
+- Meal type
+- Taste preferences
+
+## 🔍 Semantic Menu Search
+Understands intent-based natural language queries instead of relying only on keyword matching.
+
+## 💬 Conversational AI Experience
+Supports interactive and context-aware conversations for restaurant discovery.
+
+## 📚 RAG-based Information Retrieval
+Improves response quality by grounding LLM outputs using retrieved restaurant data.
+
+---
+
+# 🛠️ Installation & Setup
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/himanshukumar8/RAG-Gen-AI-Restaurant-Chatbot.git
+cd RAG-Gen-AI-Restaurant-Chatbot
 ```
-https://github.com/apoorv1110/Zomato-Gen-AI-Internship-Assignment.git
+
+## 2. Create Virtual Environment
+
+```bash
+python -m venv venv
 ```
-### Install dependencies
+
+### Activate Environment
+
+#### Windows
+```bash
+venv\Scripts\activate
 ```
+
+#### Linux/Mac
+```bash
+source venv/bin/activate
+```
+
+## 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-## Move into the directory
+## 4. Configure Environment Variables
 
-### Web Scraping Component
+Create a `.env` file:
 
-```
-cd web scraper component
-```
-Run web scraping python Files
-
-```
-python3 run main.py
-```
-It will create a restaurant.json with unfiltered data
-
-Format and generate the knowledge base:
-```
-python3 format.py
-```
-It will create a Knowledgebase.json with cleaned data
-
-### RAG Chatbot
-
-```
-cd RAG_CHAT-BOT
+```env
+PINECONE_API_KEY=your_api_key
+GEMINI_API_KEY=your_api_key
 ```
 
-Set up environment variable
+## 5. Run Application
+
+```bash
+streamlit run app.py
 ```
-PINECONE_API_KEY=your_pinecone_key
-MONGODB_URI=your_mongodb_cluster_uri
-GEMINI_API_KEY = your_free_gemini_api_key
-```
-Running the streamlit application
-```
-streamlit run main.py
-```
-Streamlit application will start running on local hoat and a UI like below will get opened up
-- For the first time to start chatbot , click on Upload data under admin actions button
-- This will enable the LLM to use data for information retrieval
-- Once the data is uploaded successfully you can use chatbot for your queries
 
-<img width="1280" alt="Screenshot 2025-04-27 at 12 16 03 PM" src="https://github.com/user-attachments/assets/03643da7-fbb8-47c2-9c23-a7a36754974b" />
-<img width="1280" alt="Screenshot 2025-04-27 at 12 29 28 PM" src="https://github.com/user-attachments/assets/4f17bef7-ee03-4079-861b-6fd5de0870e0" />
-<img width="1280" alt="Screenshot 2025-04-27 at 12 31 33 PM" src="https://github.com/user-attachments/assets/88fab175-0fbd-43e0-95f5-11df4b0a7ac0" />
+---
 
-# 🛠️ Technology Stack Used
+# 📈 Challenges Addressed
 
-## Languages
-- **Python 3.10+** — Core development language for backend logic and scripting.
+- Handling irrelevant retrieval results
+- Improving semantic similarity search quality
+- Reducing hallucinated responses
+- Structuring restaurant data efficiently
+- Managing context-aware conversations
+- Optimizing retrieval latency
 
-## Frameworks & Libraries
-- **BeautifulSoup** — Web scraping library for parsing HTML and XML documents.
-- **Requests** — Python HTTP library for making API calls and web scraping.
-- **Streamlit** — Frontend framework to quickly build interactive UIs for the chatbot.
-- **Pinecone** — Vector database used to store and retrieve embeddings efficiently.
-- **Hugging Face Transformers** — Access to state-of-the-art LLMs for response generation.
-- **dotenv** — For securely managing environment variables like API keys.
-- **json** — To process and manage structured data formats (knowledge base).
+---
 
-## Databases
-- **Pinecone** — Used for scalable similarity search and retrieval of vectorized knowledge base data.
+# 🔍 Future Improvements
 
-## APIs
-- **Hugging Face Inference API** — For generating human-like natural language responses.
-- **Gemini API** — Additional large language model support.
+- Multi-language support
+- Voice-based food assistant
+- Personalized recommendation engine
+- Real-time restaurant availability
+- Hybrid search (keyword + semantic search)
+- User preference memory
+- Feedback-based recommendation optimization
 
-## Tools
-- **Streamlit CLI** — Used to run and deploy the chatbot locally.
-- **Git & GitHub** — For version control and project collaboration.
+---
 
-## License
+# 📌 Learning Outcomes
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project helped strengthen understanding of:
 
+- Retrieval-Augmented Generation (RAG)
+- Vector databases and embeddings
+- Semantic search systems
+- Prompt engineering
+- LLM integration workflows
+- NLP-based conversational systems
+- End-to-end AI application development
+
+---
+
+# 📄 License
+
+This project is intended for educational and learning purposes.
+
+---
+
+# 👨‍💻 Author
+
+Himanshu Kumar
+
+- GitHub: https://github.com/himanshukumar8
+- LinkedIn: https://www.linkedin.com/in/himanshuhhk/
